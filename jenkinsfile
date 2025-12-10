@@ -2,35 +2,29 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
-                echo "Cloning repository..."
                 checkout scm
             }
         }
 
         stage('Build') {
             steps {
-                echo "Running build..."
-                sh 'echo "Here should be your build command"'
-                // Наприклад:
-                // sh 'mvn clean package'
-                // або:
-                // sh 'npm install'
+                echo "Building with Maven..."
+                sh 'mvn clean package'
             }
         }
 
         stage('Test') {
             steps {
-                echo "Running tests..."
-                // sh 'mvn test'
+                sh 'mvn test'
             }
         }
 
         stage('Archive artifacts') {
             steps {
-                echo "Archiving build outputs..."
-                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
