@@ -1,13 +1,7 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.6-eclipse-temurin-17'
-            args '-v $HOME/.m2:/root/.m2'
-        }
-    }
+    agent any
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -16,17 +10,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                dir('complete') {
-                    sh 'mvn clean package'
-                }
+                sh 'cd complete && mvn clean package'
             }
         }
 
         stage('Test') {
             steps {
-                dir('complete') {
-                    sh 'mvn test'
-                }
+                sh 'cd complete && mvn test'
             }
         }
 
